@@ -1,0 +1,53 @@
+version '1.1.0-CO3090CW'
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+// jar Release
+
+jar {
+    baseName = 'OrdersApp'
+    version =  '1.0.0' // first application version
+}
+
+mainClassName = "application.OrdersApplication"
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.1'
+    }
+}
+apply plugin: 'org.junit.platform.gradle.plugin'
+ 
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	compile (
+			'junit:junit:4.12'
+	)
+    testCompile(
+            'org.junit.jupiter:junit-jupiter-api:5.0.1',
+            'junit:junit:4.12'            
+    )
+    testRuntime(
+            'org.junit.jupiter:junit-jupiter-engine:5.0.1',
+            'org.junit.vintage:junit-vintage-engine:4.12.1',
+            'org.junit.platform:junit-platform-launcher:1.0.1',
+            'org.junit.platform:junit-platform-runner:1.0.1'
+    )    
+}
+
+// GRADLE Wrapper
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.5.1'
+}
