@@ -11,11 +11,11 @@ targetCompatibility = 1.8
 // jar Release
 
 jar {
-    baseName = 'OrdersApp'
+    baseName = 'WebMiner'
     version =  '1.0.0' // first application version
 }
 
-mainClassName = "application.OrdersApplication"
+mainClassName = "MinerManager"
 
 buildscript {
     repositories {
