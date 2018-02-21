@@ -22,6 +22,7 @@ ext.junitPlatformVersion = '1.1.0'
 ext.junitJupiterVersion  = '5.1.0'
 ext.log4jVersion         = '2.9.0'
 
+apply plugin: 'application'
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
@@ -52,6 +53,7 @@ junitPlatform {
         // includeClassNamePattern '.*Test'
     }
     reportsDir file('build/test-results/junit-platform') // this is the default
+    logManager 'org.apache.logging.log4j.jul.LogManager'
 }
 
 dependencies {
@@ -65,10 +67,21 @@ dependencies {
 
     // Only needed to run tests in an (IntelliJ) IDE(A) that bundles an older version
     testRuntime("org.junit.platform:junit-platform-launcher:${junitPlatformVersion}")
+    
+    //Log4J's LogManager
+	testRuntime("org.apache.logging.log4j:log4j-core:${log4jVersion}")
+	testRuntime("org.apache.logging.log4j:log4j-jul:${log4jVersion}")
 }
 
+mainClassName = "uk.ac.le.cs.CO3090.cw1.InputOutput"
 
 // GRADLE Wrapper
 task wrapper(type: Wrapper) {
     gradleVersion = '4.5.1'
+}
+
+run {
+
+	standardInput = System.in
+
 }
