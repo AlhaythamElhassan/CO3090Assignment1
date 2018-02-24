@@ -1,53 +1,91 @@
-version '1.1.0-CO3090CW'
-
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'application'
-
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-// jar Release
-
-jar {
-    baseName = 'WebMiner'
-    version =  '1.0.0' // first application version
-}
-
-mainClassName = "MinerManager"
+version '1.1.0-CO3090CW1'
 
 buildscript {
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.1'
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.0'
     }
 }
-apply plugin: 'org.junit.platform.gradle.plugin'
- 
+
 repositories {
     mavenCentral()
 }
 
-dependencies {
-	compile (
-			'junit:junit:4.12'
-	)
-    testCompile(
-            'org.junit.jupiter:junit-jupiter-api:5.0.1',
-            'junit:junit:4.12'            
-    )
-    testRuntime(
-            'org.junit.jupiter:junit-jupiter-engine:5.0.1',
-            'org.junit.vintage:junit-vintage-engine:4.12.1',
-            'org.junit.platform:junit-platform-launcher:1.0.1',
-            'org.junit.platform:junit-platform-runner:1.0.1'
-    )    
+// Extra variables to keep track of the versions of dependencies.
+ext.sourceComp = 1.8
+ext.targetComp = 1.8
+ext.junit4Version        = '4.12'
+ext.junitVintageVersion  = '5.1.0'
+ext.junitPlatformVersion = '1.1.0'
+ext.junitJupiterVersion  = '5.1.0'
+ext.log4jVersion         = '2.9.0'
+
+apply plugin: 'application'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'maven'
+apply plugin: 'org.junit.platform.gradle.plugin'
+
+// jar Release
+jar {
+    baseName = 'WebMiner'
+    version =  '1.0.0' // first application version
 }
+
+compileTestJava {
+    sourceCompatibility =  sourceComp
+    targetCompatibility = targetComp
+}
+
+junitPlatform {
+    // platformVersion '1.1.0'
+    filters {
+        engines {
+            include 'junit-jupiter', 'junit-vintage'
+        }
+        tags {
+            // include 'tagX'
+            // exclude 'tagY'
+        }
+        // includeClassNamePattern '.*Test'
+    }
+    reportsDir file('build/test-results/junit-platform') // this is the default
+    logManager 'org.apache.logging.log4j.jul.LogManager'
+}
+
+dependencies {
+    //Add JUnit Jupiter API and TestEngine implementation and api to classpath
+    testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
+
+    // support JUnit 3 and JUnit 4 tests by adding junit 4 to classpath and vintage engine
+    testCompile("junit:junit:${junit4Version}")
+    testRuntime("org.junit.vintage:junit-vintage-engine:${junitVintageVersion}")
+
+    // Only needed to run tests in an (IntelliJ) IDE(A) that bundles an older version
+    testRuntime("org.junit.platform:junit-platform-launcher:${junitPlatformVersion}")
+    
+    //Log4J's LogManager
+	testRuntime("org.apache.logging.log4j:log4j-core:${log4jVersion}")
+	testRuntime("org.apache.logging.log4j:log4j-jul:${log4jVersion}")
+	
+	// https://mvnrepository.com/artifact/org.jsoup/jsoup
+	compile group: 'org.jsoup', name: 'jsoup', version: '1.8.3'
+	
+}
+
+mainClassName = "uk.ac.le.cs.CO3090.cw1.MineManager"
 
 // GRADLE Wrapper
 task wrapper(type: Wrapper) {
     gradleVersion = '4.5.1'
+}
+
+run {
+
+	standardInput = System.in
+
 }

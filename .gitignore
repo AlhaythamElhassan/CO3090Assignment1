@@ -9,3 +9,6 @@ bin/
 //gradlew.bat
 //settings.gradle
 //src/
+.idea
+build/
+doc/
