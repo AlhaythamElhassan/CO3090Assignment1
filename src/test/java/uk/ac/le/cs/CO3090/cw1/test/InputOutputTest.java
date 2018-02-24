@@ -21,13 +21,13 @@ public class InputOutputTest {
 	}
 	@Test
 	@DisplayName ("Test Input: ")
-	public void testReadInput() {
+	public void testReadInputGetsUserInputs() {
 		String sample = "https://blackboard.le.ac.uk,a,b,";
 		byte [] expectedInput = sample.getBytes();
 		
-		
 		InputStream input = new ByteArrayInputStream(expectedInput);
 		inOut.read(input);
+		
 		assertEquals("https://blackboard.le.ac.uk", inOut.getTokens().get(0));
 		assertEquals("a", inOut.getTokens().get(1));
 		assertEquals("b", inOut.getTokens().get(2));

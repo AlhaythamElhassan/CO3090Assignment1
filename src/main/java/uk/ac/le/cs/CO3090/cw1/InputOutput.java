@@ -12,7 +12,8 @@ public class InputOutput {
 
 	public static void main(String[] args) {
 		InputOutput inout = new InputOutput();
-		System.out.println("please enter a website");
+		System.out.println("please enter a website and keywords saparated and ended with , e.g");
+		System.out.println("https://www.bbc.co.uk, news, sport, brexit,");
 		inout.read(System.in);
 		inout.getTokens().forEach(token -> {
 			System.out.println(token);
@@ -38,14 +39,15 @@ public class InputOutput {
 				dataIn = input.read();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
-
+/**
+ * 
+ * @return an array of strings that are the user inputs
+ */
 	public List<String> getTokens() {
-		// TODO Auto-generated method stub
 		return tokens;
 	}
 
